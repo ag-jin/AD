@@ -5,8 +5,9 @@
 
 | 文件 | 说明 |
 |---|---|
-| `adblock-rules.conf` | 本仓库维护的规则片段（34 条），可单独导入 |
-| `sr_top500_whitelist_ad.conf` | 完整配置（59727 行），含上游订阅全文 |
+| `adblock-rules.conf` | 域名规则片段（55 条），粘贴到 `[Rule]` 段顶部 |
+| `bilibili-splash.conf` | 哔哩哔哩开屏广告拦截，粘贴到 `[URL Rewrite]` 段 |
+| `sr_top500_whitelist_ad.conf` | 完整配置（59748 行），含上游订阅全文 |
 | `LICENSE-CC-BY-SA-4.0.txt` | 上游规则集的许可协议 |
 
 ### 关于 `sr_top500_whitelist_ad.conf`
@@ -14,10 +15,11 @@
 完整配置的构成：
 
 - **上游订阅规则 59577 条（99.9%）** — 来自 [Johnshall/Shadowrocket-ADBlock-Rules-Forever](https://github.com/Johnshall/Shadowrocket-ADBlock-Rules-Forever)，采用 **CC BY-SA 4.0** 许可，署名与许可文件见本仓库
-- **自有规则 34 条** — 位于 `[Rule]` 段顶部（第 12 行起），就是 `adblock-rules.conf` 的内容
+- **自有规则 55 条** — 位于 `[Rule]` 段顶部（第 12 行起），就是 `adblock-rules.conf` 的内容
+- **B站开屏规则 1 条** — 位于 `[URL Rewrite]` 段，就是 `bilibili-splash.conf` 的内容
 - 无任何代理节点、UUID、密码或个人凭据，可安全公开
 
-该文件带 `update-url`，Shadowrocket 更新订阅时会重写整个文件（含自有规则）。若需长期保留自有规则，更新后重新粘贴 `adblock-rules.conf`。
+该文件带 `update-url`，Shadowrocket 更新订阅时会重写整个文件（含自有规则）。若需长期保留自有规则，更新后重新粘贴 `adblock-rules.conf` 和 `bilibili-splash.conf`。
 
 ## 用法
 
