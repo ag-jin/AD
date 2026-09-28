@@ -2,21 +2,6 @@
 
 针对 **七猫免费小说** 等 App 的定向广告拦截规则，基于真实流量日志（Shadowrocket `.db` 记录）分析得出。
 
-## 背景
-
-七猫是免费小说 App，广告收入是其变现方式，因此内置了**多家广告联盟聚合竞价**：
-
-| 联盟 | 归属 | 相关域名 |
-|---|---|---|
-| 穿山甲 | 字节跳动 | `pangolin-sdk-toutiao*.com`、`pglstatp-toutiao.com` |
-| 优量汇 | 腾讯 | `ugdtimg.com`、`gdt.qq.com` |
-| 百青藤 | 百度 | `mobads.baidu.com`、`pos.baidu.com`、`bdurl.net` |
-| 快手联盟 | 快手 | `adkwai.com` |
-| 讯飞 AI 营销云 | 科大讯飞 | `voiceads.cn` |
-| 自营广告位 | 七猫 | `*-remad.qm989.com` |
-
-只拦一家无效，必须全拦。
-
 ## 文件
 
 | 文件 | 说明 |
