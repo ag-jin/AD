@@ -1,6 +1,5 @@
 # AD — 广告拦截规则维护
 
-针对 **七猫免费小说** 等 App 的定向广告拦截规则，基于真实流量日志（Shadowrocket `.db` 记录）分析得出。
 
 ## 文件
 
@@ -69,7 +68,7 @@ Shadowrocket → 配置 → 当前配置 → 编辑 → 粘贴到 `[Rule]` 段**
 
 ## 不要拦这些
 
-七猫正常加载正文必需的，拦了会白屏：
+
 
 ```
 api-bs.wtzw.com    api-gw.wtzw.com    api-cfg.wtzw.com
