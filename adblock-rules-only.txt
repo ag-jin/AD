@@ -92,6 +92,15 @@ DOMAIN-SUFFIX,e.kuaishou.com,REJECT
 DOMAIN-SUFFIX,nadvideo2.baidu.com,REJECT
 DOMAIN-SUFFIX,feed-image.baidu.com,REJECT
 
+# --- 哔哩哔哩（B站广告投放域，2026-09-28）---
+# cm.bilibili.com 是 B站自营商业化域名（CDN 走自有 bilicdn1.com）。
+# 已实测：其 /x/v2/feed/index、/x/web-interface/nav、/pgc/season/index、
+#         /x/v2/account 等核心 API 路径全部 404，而 app.bilibili.com 均 200，
+#         证明它不承载 App 核心功能，拦截安全。
+# 效果说明：能减少广告请求，但【不能消除开屏】——开屏数据来自
+#         app.bilibili.com 的正常响应，不清洗响应体就去不掉。
+DOMAIN-SUFFIX,cm.bilibili.com,REJECT
+
 # --- 程序化广告交换（主流规则库收录不全，重点）---
 
 # ============================================================

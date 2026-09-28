@@ -5,9 +5,9 @@
 
 | 文件 | 说明 |
 |---|---|
-| `adblock-rules.conf` | 域名规则片段（55 条），粘贴到 `[Rule]` 段顶部 |
-| `bilibili-splash.conf` | 哔哩哔哩开屏广告拦截，粘贴到 `[URL Rewrite]` 段 |
-| `sr_top500_whitelist_ad.conf` | 完整配置（59748 行），含上游订阅全文 |
+| `adblock-rules.conf` | 域名规则片段（56 条），粘贴到 `[Rule]` 段顶部 |
+| `bilibili-splash.conf` | B站开屏广告调查结论（已停用，需 MITM 才能生效，勿导入） |
+| `sr_top500_whitelist_ad.conf` | 完整配置（59755 行），含上游订阅全文 |
 | `LICENSE-CC-BY-SA-4.0.txt` | 上游规则集的许可协议 |
 
 ### 关于 `sr_top500_whitelist_ad.conf`
@@ -15,11 +15,18 @@
 完整配置的构成：
 
 - **上游订阅规则 59577 条（99.9%）** — 来自 [Johnshall/Shadowrocket-ADBlock-Rules-Forever](https://github.com/Johnshall/Shadowrocket-ADBlock-Rules-Forever)，采用 **CC BY-SA 4.0** 许可，署名与许可文件见本仓库
-- **自有规则 55 条** — 位于 `[Rule]` 段顶部（第 12 行起），就是 `adblock-rules.conf` 的内容
-- **B站开屏规则 1 条** — 位于 `[URL Rewrite]` 段，就是 `bilibili-splash.conf` 的内容
+- **自有规则 56 条** — 位于 `[Rule]` 段顶部（第 12 行起），就是 `adblock-rules.conf` 的内容
 - 无任何代理节点、UUID、密码或个人凭据，可安全公开
 
-该文件带 `update-url`，Shadowrocket 更新订阅时会重写整个文件（含自有规则）。若需长期保留自有规则，更新后重新粘贴 `adblock-rules.conf` 和 `bilibili-splash.conf`。
+该文件带 `update-url`，Shadowrocket 更新订阅时会重写整个文件（含自有规则）。若需长期保留自有规则，更新后重新粘贴 `adblock-rules.conf`。
+
+### 关于 `bilibili-splash.conf`（为什么它不能直接用）
+
+B站开屏广告**无法用域名拦截**：广告数据来自 `app.bilibili.com/x/v2/splash/show`——这是 B站正常业务域名，广告混在它的响应 JSON 里。同一域名同时承载首页内容，封域名等于封掉整个 App。
+
+唯一可行的拦截方式（URL Rewrite 用 `reject-dict` 返回空 JSON，或 JS 脚本删字段）**都必须 MITM 解密 HTTPS**，即需要安装并信任 CA 证书。
+
+本仓库**不提供**依赖 MITM 的配置：若把域名写入 `[MITM]` 却未装证书，B站请求会因证书不受信任而失败——为了减少广告反而弄坏 App。该文件保留为调查结论记录。
 
 ## 用法
 
@@ -79,5 +86,6 @@ drs.wtzw.com       update.wtzw.com    xiaoshuo.wtzw.com
 
 ## 维护记录
 
+- **2026-09-28（第三轮）** — 排查 B站开屏广告。结论：域名拦截无法实现，需 MITM 解密（用户不接受装证书），故停用相关 rewrite 规则并从 `[MITM]` 移除 `app.bilibili.com`（避免证书不受信任导致 B站请求失败）。新增 `cm.bilibili.com` 域名规则（B站商业化域，实测不承载核心 API，拦截安全但仅减少广告请求、不影响开屏）。规则总数 55 → 56 条。
 - **2026-09-28（第二轮）** — 基于另一台设备日志（14:36–15:59，830 条新增）补漏。该设备规则集较旧（仅 22 条 REJECT），补入 29 条经四库核验的域名：字节系上报（`volceapplog.com` 37次、`mssdk.volces.com` 34次、`ctobsnssdk.com` 18次）、阿里系（`mum.alibabachengdun.com` 42次、`adashx.m.taobao.com` 等）、腾讯系（`bugly.qq.com` 45次）、`effirst.com` 等。规则总数 34 → 55 条。
 - **2026-09-28（初版）** — 基于三份日志（13:45–14:36）分析，修复 `remad` 的 SUFFIX/KEYWORD 错误，补拦穿山甲三集群、`effirst.com` 等 17 个漏点。
