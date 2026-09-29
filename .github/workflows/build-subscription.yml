@@ -1,0 +1,61 @@
+name: Build Subscription
+
+# 每天拉取上游规则、注入自有规则后提交，使订阅始终为最新
+on:
+  schedule:
+    # UTC 22:30 = 北京时间 06:30（上游约 UTC 23:00 更新，此处取其前一日成果）
+    - cron: "30 22 * * *"
+  workflow_dispatch:        # 支持手动触发
+  push:
+    branches: [main]
+    paths:
+      - "adblock-rules.conf"          # 自有规则变更时立即重建
+      - "scripts/build-subscription.py"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-subscription
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: 构建订阅文件
+        run: python3 scripts/build-subscription.py
+
+      - name: 校验产物
+        run: |
+          set -e
+          f=sr_top500_whitelist_ad.conf
+          test -f "$f" || { echo "缺少产物"; exit 1; }
+          grep -q "^\[Rule\]" "$f" || { echo "缺 [Rule] 段"; exit 1; }
+          grep -q "^FINAL" "$f" || { echo "缺 FINAL 规则"; exit 1; }
+          grep -q "AD-CUSTOM-START" "$f" || { echo "自有规则未注入"; exit 1; }
+          n=$(sed -n '/AD-CUSTOM-START/,/AD-CUSTOM-END/p' "$f" | grep -c '^DOMAIN')
+          echo "自有规则: $n 条"
+          test "$n" -ge 70 || { echo "自有规则数量异常"; exit 1; }
+          # 安全：确认不含代理节点凭据
+          if grep -qE "^(ss|vmess|trojan|vless)://" "$f"; then
+            echo "检测到代理链接，中止"; exit 1
+          fi
+
+      - name: 提交更新
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet -- sr_top500_whitelist_ad.conf; then
+            echo "无变化，跳过提交"
+            exit 0
+          fi
+          git add sr_top500_whitelist_ad.conf
+          git commit -m "chore: 自动同步上游规则并注入自有规则"
+          git push
