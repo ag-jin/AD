@@ -1,0 +1,89 @@
+# NAME: AD-Custom
+# DESC: 广告拦截规则（七猫/B站/字节/腾讯/阿里等）
+# REPO: https://github.com/ag-jin/AD
+# UPDATED: 2026-09-29
+#
+# 用法（推荐，抗订阅覆盖）：
+#   在配置的 [Rule] 段任意位置加一行：
+#   RULE-SET,https://ag-jin.github.io/AD/adblock-ruleset.list,REJECT
+#
+# 这样规则独立存放在本文件，上游订阅更新不会冲掉它。
+# 注意：REJECT 策略下的规则只需写 DOMAIN,xxx 形式，无需重复写动作。
+DOMAIN-KEYWORD,remad.qm989.com
+DOMAIN-SUFFIX,pangolin-sdk-toutiao.com
+DOMAIN-SUFFIX,pangolin-sdk-toutiao1.com
+DOMAIN-SUFFIX,pangolin-sdk-toutiao2.com
+DOMAIN-SUFFIX,pangolin-sdk-toutiao-b.com
+DOMAIN-SUFFIX,gromore.pangolin-sdk-toutiao.com
+DOMAIN-SUFFIX,pglstatp-toutiao.com
+DOMAIN-SUFFIX,pglstatp-snssdk-toutiao.com
+DOMAIN-SUFFIX,ugdtimg.com
+DOMAIN-SUFFIX,adkwai.com
+DOMAIN-SUFFIX,voiceads.cn
+DOMAIN-SUFFIX,bdurl.net
+DOMAIN-SUFFIX,effirst.com
+DOMAIN-SUFFIX,mobads.baidu.com
+DOMAIN-SUFFIX,pos.baidu.com
+DOMAIN-SUFFIX,als.baidu.com
+DOMAIN-SUFFIX,bgg.baidu.com
+DOMAIN-SUFFIX,gdt.qq.com
+DOMAIN-SUFFIX,sdk.e.qq.com
+DOMAIN-SUFFIX,umeng.com
+DOMAIN-SUFFIX,umengcloud.com
+DOMAIN-SUFFIX,log.snssdk.com
+DOMAIN-SUFFIX,applog.snssdk.com
+DOMAIN-SUFFIX,mon.zijieapi.com
+DOMAIN-SUFFIX,log.zijieapi.com
+DOMAIN-SUFFIX,log-klink.zijieapi.com
+DOMAIN-SUFFIX,timon.zijieapi.com
+DOMAIN-SUFFIX,abtest-ch.snssdk.com
+DOMAIN-SUFFIX,ichannel.snssdk.com
+DOMAIN-SUFFIX,volceapplog.com
+DOMAIN-SUFFIX,ctobsnssdk.com
+DOMAIN-SUFFIX,mssdk.volces.com
+DOMAIN-SUFFIX,apmplus.volces.com
+DOMAIN-SUFFIX,dun.163.com
+DOMAIN-SUFFIX,applog.zijieapi.com
+DOMAIN-SUFFIX,mssdk-bu.bytedance.com
+DOMAIN-SUFFIX,adashx.m.taobao.com
+DOMAIN-SUFFIX,h-adashx.ut.taobao.com
+DOMAIN-SUFFIX,amdc.alipay.com
+DOMAIN-SUFFIX,amdc.m.taobao.com
+DOMAIN-SUFFIX,audid-api.taobao.com
+DOMAIN-SUFFIX,eco.taobao.com
+DOMAIN-SUFFIX,mum.alibabachengdun.com
+DOMAIN-SUFFIX,mum.alibabachengdun.net
+DOMAIN-SUFFIX,cdn.ynuf.aliapp.org
+DOMAIN-SUFFIX,bugly.qq.com
+DOMAIN-SUFFIX,rmonitor.qq.com
+DOMAIN-SUFFIX,trace.qq.com
+DOMAIN-SUFFIX,fp-it.fengkongcloud.com
+DOMAIN-SUFFIX,dw-online.ksosoft.com
+DOMAIN-SUFFIX,dualstack-logs.amap.com
+DOMAIN-SUFFIX,id6.me
+DOMAIN-SUFFIX,e.kuaishou.com
+DOMAIN-SUFFIX,nadvideo2.baidu.com
+DOMAIN-SUFFIX,feed-image.baidu.com
+DOMAIN-SUFFIX,cm.bilibili.com
+DOMAIN,a6-remad.qm989.com
+DOMAIN,t-remad.qm989.com
+DOMAIN-SUFFIX,p3-ad-sign.byteimg.com
+DOMAIN-SUFFIX,p9-ad-sign.byteimg.com
+DOMAIN-SUFFIX,mobads-pre-config.cdn.bcebos.com
+DOMAIN-SUFFIX,mobads-pre-config.bj.bcebos.com
+DOMAIN-SUFFIX,qchannel01.cn
+DOMAIN-SUFFIX,qchannel03.cn
+DOMAIN-SUFFIX,miaozhen.com
+DOMAIN-SUFFIX,reachmax.cn
+DOMAIN-SUFFIX,puata.info
+DOMAIN-SUFFIX,ads-img-al.xhscdn.com
+DOMAIN-SUFFIX,ads-i2.xhscdn.com
+DOMAIN-SUFFIX,spider-tracker.xiaohongshu.com
+DOMAIN-SUFFIX,referee.xiaohongshu.com
+DOMAIN-SUFFIX,ads.cup.com.cn
+DOMAIN-SUFFIX,ali-stats.jpush.cn
+DOMAIN-SUFFIX,data-sdk-uuid-log.d.meituan.net
+DOMAIN-SUFFIX,optimus-ads.amap.com
+DOMAIN-SUFFIX,adashx.ut.amap.com
+DOMAIN-SUFFIX,dataflow.biliapi.com
+DOMAIN-SUFFIX,iadsdk.apple.com
