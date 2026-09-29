@@ -1,14 +1,27 @@
 # AD — 广告拦截规则维护
 
+## 订阅链接（推荐）
+
+```
+https://ag-jin.github.io/AD/sr_top500_whitelist_ad.conf
+```
+
+Shadowrocket → 配置 → 添加 → 粘贴上面的地址。**这个链接同时具备上游更新和自有规则**：
+
+- 上游规则由 GitHub Actions **每天自动拉取最新版**（北京时间 06:30）
+- 自有 78 条规则以标记块形式注入，**订阅更新不会冲掉**
+- 构建脚本：`scripts/build-subscription.py`；工作流：`.github/workflows/build-subscription.yml`
+
+> 用 `ag-jin.github.io` 而非 `raw.githubusercontent.com`——后者在国内被墙，会导致更新静默失败。
 
 ## 文件
 
 | 文件 | 说明 |
 |---|---|
-| `adblock-ruleset.list` | **推荐用法**：RULE-SET 格式（78 条），订阅更新不会冲掉 |
-| `adblock-rules.conf` | 直接粘贴格式（78 条），会被订阅更新覆盖，需重新粘贴 |
+| `sr_top500_whitelist_ad.conf` | **订阅用**：上游规则 + 自有规则（自动构建，勿手改） |
+| `adblock-ruleset.list` | RULE-SET 格式（78 条），需在配置里写一行引用 |
+| `adblock-rules.conf` | 自有规则源文件（78 条），Actions 据此注入 |
 | `bilibili-splash.conf` | B站开屏广告调查结论（已停用，需 MITM 才能生效，勿导入） |
-| `sr_top500_whitelist_ad.conf` | 完整配置（59782 行），含上游订阅全文 |
 | `LICENSE-CC-BY-SA-4.0.txt` | 上游规则集的许可协议 |
 
 ## ⚠️ 两个坑（都踩过，都会让规则"看起来没用"）
@@ -19,14 +32,9 @@
 
 **原因**：`update-url` 触发的订阅更新会**重写整个配置文件**，[Rule] 段的手写规则被上游内容覆盖。
 
-**解法（推荐）**：用 RULE-SET，规则独立存放，订阅更新不会影响：
+**解法**：用本仓库的订阅链接（见顶部），它由 Actions 每天重建，自有规则以标记块注入，订阅更新后仍在。
 
-```ini
-# 在 [Rule] 段任意位置加这一行即可（REJECT 策略已在该文件内声明）
-RULE-SET,https://ag-jin.github.io/AD/adblock-ruleset.list,REJECT
-```
-
-已确认 Shadowrocket 支持 `RULE-SET` 指令。用 GitHub Pages 地址（国内可达），不要用 `raw.githubusercontent.com`。
+备选：用 RULE-SET，在 `[Rule]` 段加一行 `RULE-SET,https://ag-jin.github.io/AD/adblock-ruleset.list,REJECT`（已确认 Shadowrocket 支持该指令）。
 
 ### 坑二：`raw.githubusercontent.com` 在国内被墙
 
@@ -36,7 +44,7 @@ RULE-SET,https://ag-jin.github.io/AD/adblock-ruleset.list,REJECT
 
 **验证是否生效**：看日志里 `result` 字段。若只有早期那 20 多条规则在工作、没有 `DOMAIN-KEYWORD` 或 `DOMAIN,` 精确规则，说明新规则没进去。
 
-> 注意：本仓库的 `sr_top500_whitelist_ad.conf` 是快照，**不要**把它的地址设为 `update-url`，否则上游规则停止更新。上游地址用 `johnshall.github.io`（国内可达）。
+> 本仓库的 `sr_top500_whitelist_ad.conf` 由 Actions 自动构建：先拉上游最新版，再注入自有规则，并把 `update-url` 指向自身，因此订阅可持续更新且不丢规则。
 
 ### 关于 `sr_top500_whitelist_ad.conf`
 
