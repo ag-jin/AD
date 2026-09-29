@@ -1,5 +1,5 @@
 #!name=广告拦截规则
-#!desc=七猫/B站/字节/腾讯/阿里等广告与追踪拦截（78条）
+#!desc=七猫/B站/字节/腾讯/阿里等广告与追踪拦截
 #!author=ag-jin
 #!homepage=https://github.com/ag-jin/AD
 
@@ -82,3 +82,29 @@ DOMAIN-SUFFIX,optimus-ads.amap.com,REJECT
 DOMAIN-SUFFIX,adashx.ut.amap.com,REJECT
 DOMAIN-SUFFIX,dataflow.biliapi.com,REJECT
 DOMAIN-SUFFIX,iadsdk.apple.com,REJECT
+DOMAIN-SUFFIX,api-bs.wtzw.com,REJECT
+DOMAIN-SUFFIX,api-gw.wtzw.com,REJECT
+DOMAIN-SUFFIX,api-cfg.wtzw.com,REJECT
+DOMAIN-SUFFIX,api-sc.wtzw.com,REJECT
+DOMAIN-SUFFIX,drs.wtzw.com,REJECT
+DOMAIN-SUFFIX,drs-ipv6.wtzw.com,REJECT
+DOMAIN-SUFFIX,qm-data.wtzw.com,REJECT
+DOMAIN-SUFFIX,t-remad.qm989.com,REJECT
+DOMAIN-SUFFIX,ulogs.umeng.com,REJECT
+DOMAIN-SUFFIX,otheve.beacon.qq.com,REJECT
+DOMAIN-SUFFIX,xlog.jd.com,REJECT
+DOMAIN-SUFFIX,hmma.baidu.com,REJECT
+DOMAIN-SUFFIX,saas.ecombdapi.com,REJECT
+DOMAIN-SUFFIX,adukwai.com,REJECT
+DOMAIN-SUFFIX,kuaishouzt.com,REJECT
+DOMAIN-SUFFIX,open.kwaizt.com,REJECT
+DOMAIN-SUFFIX,jietuhb.com,REJECT
+DOMAIN-SUFFIX,sdk-ab-config.aiclk.com,REJECT
+DOMAIN-SUFFIX,logrcv.aiclk.com,REJECT
+DOMAIN-SUFFIX,cdn.aiclk.com,REJECT
+DOMAIN-SUFFIX,hc-ssp.sm.cn,REJECT
+DOMAIN-SUFFIX,sdk-log.partner.sm.cn,REJECT
+DOMAIN-SUFFIX,mi.gdt.qq.com,REJECT
+DOMAIN-SUFFIX,cmpassport.com,REJECT
+DOMAIN-SUFFIX,sdkoptedge.chinanetcenter.com,REJECT
+DOMAIN-SUFFIX,httpdns.bcelive.com,REJECT
