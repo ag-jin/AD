@@ -216,3 +216,6 @@ DOMAIN-SUFFIX,cdn-api-auth.zztfly.com,REJECT
 
 # --- 第三方广告/埋点（NS 非七猫自有，随机子域，高频124次）---
 DOMAIN-SUFFIX,yingt.fun,REJECT
+
+# --- 百度广告日志（四库均收录；日志实测 type=DIRECT 漏拦）---
+DOMAIN-SUFFIX,mobads-logs.baidu.com,REJECT
