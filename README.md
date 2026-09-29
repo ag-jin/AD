@@ -5,28 +5,38 @@
 
 | 文件 | 说明 |
 |---|---|
-| `adblock-rules.conf` | 域名规则片段（78 条），粘贴到 `[Rule]` 段顶部 |
+| `adblock-ruleset.list` | **推荐用法**：RULE-SET 格式（78 条），订阅更新不会冲掉 |
+| `adblock-rules.conf` | 直接粘贴格式（78 条），会被订阅更新覆盖，需重新粘贴 |
 | `bilibili-splash.conf` | B站开屏广告调查结论（已停用，需 MITM 才能生效，勿导入） |
-| `sr_top500_whitelist_ad.conf` | 完整配置（59777 行），含上游订阅全文 |
+| `sr_top500_whitelist_ad.conf` | 完整配置（59782 行），含上游订阅全文 |
 | `LICENSE-CC-BY-SA-4.0.txt` | 上游规则集的许可协议 |
 
-## ⚠️ 导入前必读：国内网络下订阅更新会失败
+## ⚠️ 两个坑（都踩过，都会让规则"看起来没用"）
 
-**现象**：设备长期沿用旧规则，新补的域名拦不住，看起来"规则没用"。
+### 坑一：规则被订阅更新冲掉
 
-**原因**：完整配置的 `update-url` 指向 `raw.githubusercontent.com`，该域名在国内被墙。Shadowrocket 更新订阅时静默失败，配置**保持原样**，不会有明显报错。
+**现象**：配置导入后能用，但过一段时间广告又回来了；配置文件大小变化（如 7.3M → 6.4M）。
 
-**验证方法**：对比日志里 `result` 字段——如果只有早期那 20 多条规则在生效，说明更新没成功。
+**原因**：`update-url` 触发的订阅更新会**重写整个配置文件**，[Rule] 段的手写规则被上游内容覆盖。
 
-**正确做法**：
+**解法（推荐）**：用 RULE-SET，规则独立存放，订阅更新不会影响：
 
-**推荐 — 手动粘贴**（不受网络影响）：从 `https://ag-jin.github.io/AD/adblock-rules.conf` 下载（GitHub Pages 国内可达），粘贴到配置 `[Rule]` 段的**最顶部**，保存后重连。
+```ini
+# 在 [Rule] 段任意位置加这一行即可（REJECT 策略已在该文件内声明）
+RULE-SET,https://ag-jin.github.io/AD/adblock-ruleset.list,REJECT
+```
 
-**不推荐把本仓库的 conf 用作 `update-url`**：本仓库的 `sr_top500_whitelist_ad.conf` 只是某一时刻的快照，其上游规则会逐渐过时，而 `update-url` 指向上游才能持续拿到 weekly 更新。本仓库保留 `update-url = johnshall.github.io/...`（该域名国内可达，未被墙）。
+已确认 Shadowrocket 支持 `RULE-SET` 指令。用 GitHub Pages 地址（国内可达），不要用 `raw.githubusercontent.com`。
 
-**注意**：上游订阅更新会重写整个配置文件，自有规则会被冲掉，需重新粘贴。
+### 坑二：`raw.githubusercontent.com` 在国内被墙
 
-> 排查提示：`raw.githubusercontent.com` 与 `github.io` 走不同 CDN，前者在国内被墙、后者通常可直连。若从 raw 域名下载或导入，会超时失败且无明确报错。
+**现象**：手机上从 raw 域名下载/更新配置超时失败；Shadowrocket 更新订阅时**静默失败**，界面无明确报错，配置保持原样。
+
+**解法**：一律用 GitHub Pages 地址 `https://ag-jin.github.io/AD/...`。两者走不同 CDN，前者被墙、后者通常可直连。
+
+**验证是否生效**：看日志里 `result` 字段。若只有早期那 20 多条规则在工作、没有 `DOMAIN-KEYWORD` 或 `DOMAIN,` 精确规则，说明新规则没进去。
+
+> 注意：本仓库的 `sr_top500_whitelist_ad.conf` 是快照，**不要**把它的地址设为 `update-url`，否则上游规则停止更新。上游地址用 `johnshall.github.io`（国内可达）。
 
 ### 关于 `sr_top500_whitelist_ad.conf`
 
@@ -104,6 +114,7 @@ drs.wtzw.com       update.wtzw.com    xiaoshuo.wtzw.com
 
 ## 维护记录
 
+- **2026-09-29（下午）** — 确认配置文件变小（7.3M→6.4M）是订阅更新**重写文件、冲掉自有规则**所致，而非导入失败。新增 `adblock-ruleset.list`（RULE-SET 格式）作为抗覆盖方案，README 把两个坑（订阅覆盖、raw 域名被墙）提到顶部。
 - **2026-09-29** — 定位到真正根因：**设备订阅更新因 `raw.githubusercontent.com` 被墙而失败**，配置始终停留在旧版本（日志验证 12 条新增规则 0 条生效）。本轮补 22 条并新增精确 `DOMAIN` 写法作 KEYWORD 兜底；README 增加"导入前必读"。规则总数 56 → 78 条。
 - **2026-09-28（第三轮）** — 排查 B站开屏广告。结论：域名拦截无法实现，需 MITM 解密（用户不接受装证书），故停用相关 rewrite 规则并从 `[MITM]` 移除 `app.bilibili.com`（避免证书不受信任导致 B站请求失败）。新增 `cm.bilibili.com` 域名规则（B站商业化域，实测不承载核心 API，拦截安全但仅减少广告请求、不影响开屏）。规则总数 55 → 56 条。
 - **2026-09-28（第二轮）** — 基于另一台设备日志（14:36–15:59，830 条新增）补漏。该设备规则集较旧（仅 22 条 REJECT），补入 29 条经四库核验的域名：字节系上报（`volceapplog.com` 37次、`mssdk.volces.com` 34次、`ctobsnssdk.com` 18次）、阿里系（`mum.alibabachengdun.com` 42次、`adashx.m.taobao.com` 等）、腾讯系（`bugly.qq.com` 45次）、`effirst.com` 等。规则总数 34 → 55 条。
