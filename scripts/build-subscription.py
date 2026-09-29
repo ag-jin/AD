@@ -47,6 +47,24 @@ def main():
 
     text = strip_block(upstream)
 
+    # 上游含一条指向 raw.githubusercontent.com 的 RULE-SET（国内被墙），
+    # 会导致整份配置加载失败、设备回退旧配置。此处替换为可达镜像。
+    # 形如 .../user/repo/branch/path → jsdelivr 需写成 /gh/user/repo@branch/path
+    def to_jsdelivr(m):
+        path, action = m.group(1), m.group(2)
+        parts = path.split("/", 3)
+        if len(parts) == 4:
+            user, repo, branch, rest = parts
+            return f"RULE-SET,https://cdn.jsdelivr.net/gh/{user}/{repo}@{branch}/{rest},{action}"
+        return m.group(0)
+
+    text = re.sub(
+        r"^RULE-SET,https://raw\.githubusercontent\.com/([^,]+),(.*)$",
+        to_jsdelivr,
+        text,
+        flags=re.M,
+    )
+
     # update-url 指回本仓库，避免订阅更新冲掉自有规则
     if re.search(r"^update-url\s*=", text, flags=re.M):
         text = re.sub(r"^update-url\s*=.*$", f"update-url = {PAGES}", text, flags=re.M)
