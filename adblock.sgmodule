@@ -108,3 +108,14 @@ DOMAIN-SUFFIX,mi.gdt.qq.com,REJECT
 DOMAIN-SUFFIX,cmpassport.com,REJECT
 DOMAIN-SUFFIX,sdkoptedge.chinanetcenter.com,REJECT
 DOMAIN-SUFFIX,httpdns.bcelive.com,REJECT
+DOMAIN-SUFFIX,mkt.wtzw.com,REJECT
+DOMAIN-SUFFIX,api-bc.wtzw.com,REJECT
+DOMAIN-SUFFIX,api-cmnt.wtzw.com,REJECT
+DOMAIN-SUFFIX,api-ks.wtzw.com,REJECT
+DOMAIN-SUFFIX,api-nps.wtzw.com,REJECT
+DOMAIN-SUFFIX,upc.zztfly.com,REJECT
+DOMAIN-SUFFIX,cfgc.zztfly.com,REJECT
+DOMAIN-SUFFIX,fdl.zztfly.com,REJECT
+DOMAIN-SUFFIX,devc.zztfly.com,REJECT
+DOMAIN-SUFFIX,log-auth.zztfly.com,REJECT
+DOMAIN-SUFFIX,cdn-api-auth.zztfly.com,REJECT
