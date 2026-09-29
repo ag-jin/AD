@@ -119,3 +119,4 @@ DOMAIN-SUFFIX,fdl.zztfly.com,REJECT
 DOMAIN-SUFFIX,devc.zztfly.com,REJECT
 DOMAIN-SUFFIX,log-auth.zztfly.com,REJECT
 DOMAIN-SUFFIX,cdn-api-auth.zztfly.com,REJECT
+DOMAIN-SUFFIX,yingt.fun,REJECT
