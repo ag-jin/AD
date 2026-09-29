@@ -18,12 +18,15 @@
 
 **验证方法**：对比日志里 `result` 字段——如果只有早期那 20 多条规则在生效，说明更新没成功。
 
-**正确做法**（二选一）：
+**正确做法**：
 
-1. **手动导入**（推荐）：从 `https://ag-jin.github.io/AD/adblock-rules.conf` 下载（GitHub Pages 国内可达），粘贴进配置的 `[Rule]` 段顶部
-2. **改用 Pages 订阅**：把 `update-url` 换成 `https://ag-jin.github.io/AD/sr_top500_whitelist_ad.conf`
+**推荐 — 手动粘贴**（不受网络影响）：从 `https://ag-jin.github.io/AD/adblock-rules.conf` 下载（GitHub Pages 国内可达），粘贴到配置 `[Rule]` 段的**最顶部**，保存后重连。
 
-> `raw.githubusercontent.com` 和 `github.io` 走不同 CDN。前者被墙，后者通常可直连——这是本仓库同时提供 Pages 地址的原因。
+**不推荐把本仓库的 conf 用作 `update-url`**：本仓库的 `sr_top500_whitelist_ad.conf` 只是某一时刻的快照，其上游规则会逐渐过时，而 `update-url` 指向上游才能持续拿到 weekly 更新。本仓库保留 `update-url = johnshall.github.io/...`（该域名国内可达，未被墙）。
+
+**注意**：上游订阅更新会重写整个配置文件，自有规则会被冲掉，需重新粘贴。
+
+> 排查提示：`raw.githubusercontent.com` 与 `github.io` 走不同 CDN，前者在国内被墙、后者通常可直连。若从 raw 域名下载或导入，会超时失败且无明确报错。
 
 ### 关于 `sr_top500_whitelist_ad.conf`
 
