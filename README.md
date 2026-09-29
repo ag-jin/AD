@@ -5,17 +5,32 @@
 
 | 文件 | 说明 |
 |---|---|
-| `adblock-rules.conf` | 域名规则片段（56 条），粘贴到 `[Rule]` 段顶部 |
+| `adblock-rules.conf` | 域名规则片段（78 条），粘贴到 `[Rule]` 段顶部 |
 | `bilibili-splash.conf` | B站开屏广告调查结论（已停用，需 MITM 才能生效，勿导入） |
-| `sr_top500_whitelist_ad.conf` | 完整配置（59755 行），含上游订阅全文 |
+| `sr_top500_whitelist_ad.conf` | 完整配置（59777 行），含上游订阅全文 |
 | `LICENSE-CC-BY-SA-4.0.txt` | 上游规则集的许可协议 |
+
+## ⚠️ 导入前必读：国内网络下订阅更新会失败
+
+**现象**：设备长期沿用旧规则，新补的域名拦不住，看起来"规则没用"。
+
+**原因**：完整配置的 `update-url` 指向 `raw.githubusercontent.com`，该域名在国内被墙。Shadowrocket 更新订阅时静默失败，配置**保持原样**，不会有明显报错。
+
+**验证方法**：对比日志里 `result` 字段——如果只有早期那 20 多条规则在生效，说明更新没成功。
+
+**正确做法**（二选一）：
+
+1. **手动导入**（推荐）：从 `https://ag-jin.github.io/AD/adblock-rules.conf` 下载（GitHub Pages 国内可达），粘贴进配置的 `[Rule]` 段顶部
+2. **改用 Pages 订阅**：把 `update-url` 换成 `https://ag-jin.github.io/AD/sr_top500_whitelist_ad.conf`
+
+> `raw.githubusercontent.com` 和 `github.io` 走不同 CDN。前者被墙，后者通常可直连——这是本仓库同时提供 Pages 地址的原因。
 
 ### 关于 `sr_top500_whitelist_ad.conf`
 
 完整配置的构成：
 
 - **上游订阅规则 59577 条（99.9%）** — 来自 [Johnshall/Shadowrocket-ADBlock-Rules-Forever](https://github.com/Johnshall/Shadowrocket-ADBlock-Rules-Forever)，采用 **CC BY-SA 4.0** 许可，署名与许可文件见本仓库
-- **自有规则 56 条** — 位于 `[Rule]` 段顶部（第 12 行起），就是 `adblock-rules.conf` 的内容
+- **自有规则 78 条** — 位于 `[Rule]` 段顶部（第 12 行起），就是 `adblock-rules.conf` 的内容
 - 无任何代理节点、UUID、密码或个人凭据，可安全公开
 
 该文件带 `update-url`，Shadowrocket 更新订阅时会重写整个文件（含自有规则）。若需长期保留自有规则，更新后重新粘贴 `adblock-rules.conf`。
@@ -86,6 +101,7 @@ drs.wtzw.com       update.wtzw.com    xiaoshuo.wtzw.com
 
 ## 维护记录
 
+- **2026-09-29** — 定位到真正根因：**设备订阅更新因 `raw.githubusercontent.com` 被墙而失败**，配置始终停留在旧版本（日志验证 12 条新增规则 0 条生效）。本轮补 22 条并新增精确 `DOMAIN` 写法作 KEYWORD 兜底；README 增加"导入前必读"。规则总数 56 → 78 条。
 - **2026-09-28（第三轮）** — 排查 B站开屏广告。结论：域名拦截无法实现，需 MITM 解密（用户不接受装证书），故停用相关 rewrite 规则并从 `[MITM]` 移除 `app.bilibili.com`（避免证书不受信任导致 B站请求失败）。新增 `cm.bilibili.com` 域名规则（B站商业化域，实测不承载核心 API，拦截安全但仅减少广告请求、不影响开屏）。规则总数 55 → 56 条。
 - **2026-09-28（第二轮）** — 基于另一台设备日志（14:36–15:59，830 条新增）补漏。该设备规则集较旧（仅 22 条 REJECT），补入 29 条经四库核验的域名：字节系上报（`volceapplog.com` 37次、`mssdk.volces.com` 34次、`ctobsnssdk.com` 18次）、阿里系（`mum.alibabachengdun.com` 42次、`adashx.m.taobao.com` 等）、腾讯系（`bugly.qq.com` 45次）、`effirst.com` 等。规则总数 34 → 55 条。
 - **2026-09-28（初版）** — 基于三份日志（13:45–14:36）分析，修复 `remad` 的 SUFFIX/KEYWORD 错误，补拦穿山甲三集群、`effirst.com` 等 17 个漏点。
