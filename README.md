@@ -193,6 +193,39 @@ tcp rule => {
 5. **交叉验证** — 与 anti-AD / AdRules / EasyList CN / 217heidai 四库比对
 6. **社区背书** — 搜专用规则库（如 `5528046/AD--` 的小说规则库）
 
+
+## 外部参考：社区七猫专用模块
+
+**fmz200/wool_scripts** — 作者"奶思"维护的七猫去广告模块（多平台）：
+
+- Shadowrocket: [QiMaoNovel.srmodule](https://github.com/fmz200/wool_scripts/raw/main/Shadowrocket/module/split/partQ/QiMaoNovel.srmodule)
+- Surge: `Surge/module/split/partQ/QiMaoNovel.sgmodule`
+- Loon: `Loon/plugin/split/partQ/QiMaoNovel.lpx`
+- QuantumultX: `QuantumultX/rewrite/split/partQ/QiMaoNovel.snippet`
+
+它的做法：**域名规则 + URL Rewrite（需 MITM）**双管齐下：
+
+```ini
+[Rule]                      # 域名层（本项目已全部覆盖）
+DOMAIN,cdn-new-ad.wtzw.com,REJECT
+DOMAIN,a-remad.qm989.com,REJECT
+DOMAIN,qzs.gdtimg.com,REJECT
+
+[URL Rewrite]               # 路径层（需 MITM 证书）
+^https?://api-cfg\.wtzw\.com/v1/(adv|reward|operation) - reject
+^https?://api-access\.pangolin-sdk-toutiao-b\.com/api/ad/union/sdk/get_ads - reject
+^https?://open\.e\.kuaishou\.cn/rest/e/v3/open/univ - reject
+^https?://p1-lm\.adukwai\.com/bs2/adUnionVideo - reject
+^https?://lf-cdn-tos\.bytescm\.com/obj/static/ad - reject
+```
+
+**关键情报**：`URL Rewrite` 用精确路径拦截（如 `/api/ad/union/sdk/get_ads`），
+这正是本项目"域名拦截"做不到的——同一域名下区分正文与广告请求。
+它需要 MITM，本项目不使用证书，故仅采纳其域名部分。
+
+**注意到**：该模块还有一条 `[MTIM]` 说明"删除了域名 lf-cdn-tos.bytescm.com，原因是无法 MITM"，
+印证了路径层拦截的局限。
+
 ## 维护记录
 
 - **2026-09-29（第五轮）** — 加入 `yingt.fun`（第三方广告/埋点：NS 非七猫自有、随机子域、高频 124 次）。广告基本消失。规则 104 → **116 条**。
