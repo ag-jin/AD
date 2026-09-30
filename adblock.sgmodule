@@ -1,5 +1,5 @@
-#!name=广告拦截规则 v1.7 (117条 · 0f7150d2)
-#!desc=七猫/B站/字节/腾讯/阿里等广告与追踪拦截 · 构建于 2026-09-29 15:54
+#!name=广告拦截规则 v1.9 (122条 · 8b59dc64)
+#!desc=七猫/B站/字节/腾讯/阿里等广告与追踪拦截 · 构建于 2026-09-30 09:42
 #!author=ag-jin
 #!homepage=https://github.com/ag-jin/AD
 
@@ -121,3 +121,8 @@ DOMAIN-SUFFIX,log-auth.zztfly.com,REJECT
 DOMAIN-SUFFIX,cdn-api-auth.zztfly.com,REJECT
 DOMAIN-SUFFIX,yingt.fun,REJECT
 DOMAIN-SUFFIX,mobads-logs.baidu.com,REJECT
+DOMAIN-SUFFIX,wmzfylgdsz.com,REJECT
+DOMAIN-SUFFIX,sjxydc.com,REJECT
+DOMAIN-SUFFIX,cgcr.wtzw.com,REJECT
+DOMAIN-SUFFIX,abtest.wtzw.com,REJECT
+DOMAIN-SUFFIX,agoo-report.m.taobao.com,REJECT
